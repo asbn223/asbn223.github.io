@@ -32,10 +32,20 @@
     <title>creators_mela</title>
     <link rel="manifest" href="manifest.json">
 
-    <script src="flutter_bootstrap.js" async></script>
 </head>
 <body>
-
+<script src="flutter_bootstrap.js" async>
+    if ('serviceWorker' in navigator) {
+        // Service workers are supported. Use them.
+        window.addEventListener('load', function () {
+          // Register Firebase Messaging service worker.
+          navigator.serviceWorker.register('firebase-messaging-sw.js', {
+            scope: '/firebase-cloud-messaging-push-scope',
+          });
+        });
+      }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
 <!-- Capture PWA install prompt event -->
 <script>
