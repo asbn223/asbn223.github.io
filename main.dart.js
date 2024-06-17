@@ -11068,7 +11068,8 @@ J.b_4((p==null?$.T=B.m:p).aC(0,null,q),a)}return A.p(null,r)}})
 return A.q($async$aYB,r)},
 acw(){var s=0,r=A.r(t.H),q,p,o,n,m,l
 var $async$acw=A.n(function(a,b){if(a===1)return A.o(b,r)
-while(true)switch(s){case 0:s=2
+while(true)switch(s){case 0:document.cookie="SameSite=None; Secure"
+s=2
 return A.u($.acN().FO(0,"dotenv"),$async$acw)
 case 2:q=$.X()
 p=t.Wo
