@@ -114243,7 +114243,7 @@ A.b4K.prototype={
 $0(){var s=0,r=A.t(t.P),q,p,o,n,m
 var $async$$0=A.o(function(a,b){if(a===1)return A.p(b,r)
 while(true)switch(s){case 0:s=2
-return A.n($.aiP().Hg(0,"assets/.env",!1),$async$$0)
+return A.n($.aiP().Hg(0,"assets/web.env",!1),$async$$0)
 case 2:A.ps()
 q=$.J()
 p=t.Wo
