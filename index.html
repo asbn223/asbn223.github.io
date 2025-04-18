@@ -42,7 +42,7 @@
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
 
-    var serviceWorkerVersion = "3177660976";
+    var serviceWorkerVersion = "834449457";
     var scriptLoaded = false;
     function loadMainDartJs() {
       if (scriptLoaded) {
@@ -109,36 +109,51 @@
 
   </script>
 
-  <script>
-    let deferredPrompt;
+<script>
+  // PWA installation prompt handling
+  let deferredPrompt;
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      deferredPrompt = e;
-    });
+  window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt = e;
+  });
 
-    function promptInstall(){
-       deferredPrompt.prompt();
+  function promptInstall() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+    }
+  }
+
+  // Listen for app install event
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    if (typeof appInstalled === 'function') {
+      appInstalled();
+    }
+  });
+
+  // Track how PWA was launched
+  function getLaunchMode() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+    if (deferredPrompt && typeof hasPrompt === 'function') {
+      hasPrompt();
     }
 
-    // Listen for app install event
-    window.addEventListener('appinstalled', () => {
-      deferredPrompt = null;
-      appInstalled();
-    });
-
-    // Track how PWA was launched (either from browser or as PWA)
-    function getLaunchMode() {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-      if(deferredPrompt) hasPrompt();
-      if (document.referrer.startsWith('android-app://')) {
+    if (document.referrer.startsWith('android-app://')) {
+      if (typeof appLaunchedAsTWA === 'function') {
         appLaunchedAsTWA();
-      } else if (navigator.standalone || isStandalone) {
+      }
+    } else if (navigator.standalone || isStandalone) {
+      if (typeof appLaunchedAsPWA === 'function') {
         appLaunchedAsPWA();
-      } else {
+      }
+    } else {
+      if (typeof window.appLaunchedInBrowser === 'function') {
         window.appLaunchedInBrowser();
       }
     }
-  </script>
+  }
+</script>
 
 
 <!--  <script type="module">-->
@@ -183,7 +198,7 @@
 <!--  </script>-->
 <!--  <script>-->
 
-<!--    var serviceWorkerVersion = "3177660976";-->
+<!--    var serviceWorkerVersion = "834449457";-->
 <!--    var scriptLoaded = false;-->
 <!--    function loadMainDartJs() {-->
 <!--      if (scriptLoaded) {-->
