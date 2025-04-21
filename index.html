@@ -44,7 +44,7 @@
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
 
-    var serviceWorkerVersion = "2129136899";
+    var serviceWorkerVersion = "1565113271";
     var scriptLoaded = false;
     function loadMainDartJs() {
       if (scriptLoaded) {
@@ -111,52 +111,6 @@
 
   </script>
 
-<script>
-  // PWA installation prompt handling
-  let deferredPrompt;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    deferredPrompt = e;
-  });
-
-  function promptInstall() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-    }
-  }
-
-  // Listen for app install event
-  window.addEventListener('appinstalled', () => {
-    deferredPrompt = null;
-    if (typeof appInstalled === 'function') {
-      appInstalled();
-    }
-  });
-
-  // Track how PWA was launched
-  function getLaunchMode() {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-
-    if (deferredPrompt && typeof hasPrompt === 'function') {
-      hasPrompt();
-    }
-
-    if (document.referrer.startsWith('android-app://')) {
-      if (typeof appLaunchedAsTWA === 'function') {
-        appLaunchedAsTWA();
-      }
-    } else if (navigator.standalone || isStandalone) {
-      if (typeof appLaunchedAsPWA === 'function') {
-        appLaunchedAsPWA();
-      }
-    } else {
-      if (typeof window.appLaunchedInBrowser === 'function') {
-        window.appLaunchedInBrowser();
-      }
-    }
-  }
-</script>
-
 
 <!--  <script type="module">-->
 <!--    // Import the functions you need from the SDKs you need-->
@@ -200,7 +154,7 @@
 <!--  </script>-->
 <!--  <script>-->
 
-<!--    var serviceWorkerVersion = "2129136899";-->
+<!--    var serviceWorkerVersion = "1565113271";-->
 <!--    var scriptLoaded = false;-->
 <!--    function loadMainDartJs() {-->
 <!--      if (scriptLoaded) {-->
