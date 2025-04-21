@@ -104,7 +104,7 @@
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
-  var serviceWorkerVersion = "3040119915";
+  var serviceWorkerVersion = "3289532134";
   var scriptLoaded = false;
 
   function loadMainDartJs() {
@@ -156,32 +156,47 @@
 
 <!-- Capture PWA install prompt event -->
 <script>
+  // PWA installation prompt handling
   let deferredPrompt;
 
   window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
   });
 
-  function promptInstall(){
-     deferredPrompt.prompt();
+  function promptInstall() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+    }
   }
 
   // Listen for app install event
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
-    appInstalled();
+    if (typeof appInstalled === 'function') {
+      appInstalled();
+    }
   });
 
-  // Track how PWA was launched (either from browser or as PWA)
+  // Track how PWA was launched
   function getLaunchMode() {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    if(deferredPrompt) hasPrompt();
+
+    if (deferredPrompt && typeof hasPrompt === 'function') {
+      hasPrompt();
+    }
+
     if (document.referrer.startsWith('android-app://')) {
-      appLaunchedAsTWA();
+      if (typeof appLaunchedAsTWA === 'function') {
+        appLaunchedAsTWA();
+      }
     } else if (navigator.standalone || isStandalone) {
-      appLaunchedAsPWA();
+      if (typeof appLaunchedAsPWA === 'function') {
+        appLaunchedAsPWA();
+      }
     } else {
-      window.appLaunchedInBrowser();
+      if (typeof window.appLaunchedInBrowser === 'function') {
+        window.appLaunchedInBrowser();
+      }
     }
   }
 </script>
