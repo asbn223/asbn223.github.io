@@ -115793,7 +115793,7 @@ A.b7D.prototype={
 $0(){var s=0,r=A.u(t.P),q,p,o,n,m
 var $async$$0=A.p(function(a,b){if(a===1)return A.q(b,r)
 while(true)switch(s){case 0:s=2
-return A.o($.ak6().HO(0,".env",!1),$async$$0)
+return A.o($.ak6().HO(0,"assets/web.env",!1),$async$$0)
 case 2:A.pK()
 A.bju(A.bjw())
 q=$.J()
