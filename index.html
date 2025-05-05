@@ -45,41 +45,36 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
   <script>
-    console.log("Hello World");
-let deferredPrompt;
+    let deferredPrompt;
 
-// Handle beforeinstallprompt (for Chrome, Edge)
-window.addEventListener('beforeinstallprompt', (e) => {
-console.log('[PWA] beforeinstallprompt fired ✅');
- e.preventDefault();
- deferredPrompt = e;
- window.dispatchEvent(new Event('pwa-install-available'));
+    window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('beforeinstallprompt event fired');
+      deferredPrompt = e;
+    });
 
-});
+    function promptInstall(){
+       deferredPrompt.prompt();
+    }
 
-// Show install prompt when Flutter asks
-window.showPWAInstallPrompt = function () {
+    // Listen for app install event
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      appInstalled();
+    });
 
- if (deferredPrompt) {
-   deferredPrompt.prompt();
-   deferredPrompt.userChoice.then((choiceResult) => {
-     deferredPrompt = null;
-   });
- }
-};
-
-// iOS detection
-window.isIosSafari = function () {
- const userAgent = window.navigator.userAgent;
- return /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-};
-
-// Check if already installed
-window.isInStandaloneMode = function () {
- return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-};
+    // Track how PWA was launched (either from browser or as PWA)
+    function getLaunchMode() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      if(deferredPrompt) hasPrompt();
+      if (document.referrer.startsWith('android-app://')) {
+        appLaunchedAsTWA();
+      } else if (navigator.standalone || isStandalone) {
+        appLaunchedAsPWA();
+      } else {
+        window.appLaunchedInBrowser();
+      }
+    }
   </script>
-
 
 
 </head>
@@ -91,7 +86,7 @@ window.isInStandaloneMode = function () {
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
-  var serviceWorkerVersion = "1458123920";
+  var serviceWorkerVersion = "1006219835";
   var scriptLoaded = false;
 
   function loadMainDartJs() {
